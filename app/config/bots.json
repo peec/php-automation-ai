@@ -14,6 +14,14 @@
             "units": "si",
             "latitude": "59.2096200",
             "longitude": "9.6089700"
+        },
+        "Pkj.AutomationAI.Bots.ZwayRazberryBot": {
+            "devices": {
+                "HALL-LIGHTS": "ZWayVDev_2:0:37"
+            },
+            "protocol": "http",
+            "host": "localhost",
+            "port": "8083"
         }
 	},
 	

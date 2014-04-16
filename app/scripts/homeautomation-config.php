@@ -11,6 +11,12 @@ $do(function (BotAI $botai) {
 			"message" => "Good morning Peter, how are you today?"
 	));
 	
+	$botai->run("Pkj.AutomationAI.Bots.ZwayRazberryBot", array(
+		"commands" => array(
+			"HALL-LIGHTS=on"
+		)
+	));
+	
 	$botai->run("Pkj.AutomationAI.Bots.LoggerBot", array(
 		"message" => "Hello there dude... this is a message.."		
 	));
@@ -18,8 +24,8 @@ $do(function (BotAI $botai) {
 })
 ->when(function (Query $q) {
 	return
-	$q->matchScheme("Wed@21:22|21:23|21:24") && 
-	$q->event("motion:Lounge") && // Motion in the Lounge.
+	//$q->matchScheme("Wed@21:22|21:23|21:24") && 
+	//$q->event("motion:Lounge") && // Motion in the Lounge.
 	$q->onceEvery("day") && // Once every day.
 	date('H') >= 4; // Clock must be more than 04:00 
 });
