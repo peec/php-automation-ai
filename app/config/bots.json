@@ -1,0 +1,20 @@
+{
+	"scripts": [
+		"scripts/homeautomation-config.php"
+	],
+	
+	"bots": {
+		"Pkj.AutomationAI.Bots.LoggerBot": {}
+	},
+	
+	"timezone": "Europe/Oslo",
+	
+	"database": {
+		"dsn": "mysql:host=localhost;dbname=aibot",
+		"username": "aibot",
+		"password": "aibot",
+		"driver_options": {
+		}
+	}
+	
+}

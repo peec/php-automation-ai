@@ -1,0 +1,4 @@
+[2014-04-16 02:16:54] ai.db.DEBUG: Caught event motion:Lounge. {"id":"13","event":"motion:Lounge","args":"","issued_ts":"2014-04-16 02:16:53"} []
+[2014-04-16 02:16:54] Pkj.AutomationAI.Bots.LoggerBot.DEBUG: Logger bot announce. {"message":"Hello there dude... this is a message.."} []
+[2014-04-16 02:17:40] ai.db.DEBUG: Caught event motion:Lounge. {"id":"14","event":"motion:Lounge","args":"","issued_ts":"2014-04-16 02:17:38"} []
+[2014-04-16 02:17:40] Pkj.AutomationAI.Bots.LoggerBot.DEBUG: Logger bot announce. {"message":"Hello there dude... this is a message.."} []
