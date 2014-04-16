@@ -42,20 +42,9 @@ class Query {
 	public function matchScheme($times) {
 		$self = $this;
 		
-		if (!is_array($times)) {
-			$times = explode(',', $times);
-		}
-		
 		$createScheme = function () use ($self, $times) {			
-			$nextTimes = array();
-			foreach($times as $t) {
-				$nextTimes = array_merge($nextTimes, $self->getTimeForSchema($t));
-			}
-			$nextTime = min($nextTimes);
-			
-			return $nextTime;
+			return TimeUtils::getNextTime($times);
 		};
-		
 		
 		// Run when DO is done.
 		$this->tasks['schemaSetNewDate'] = function () use ($self, $createScheme) {
@@ -71,36 +60,6 @@ class Query {
 		return time() > $this->qbs->get("schemaset");
 	}
 	
-	public function getTimeForSchema ($schema, $checkToday=true) {
-		
-		list($day, $clocks) = explode('@', $schema);
-		$clocks = explode('|', $clocks);
-		
-		if ($checkToday && strtolower(date('D')) == strtolower($day)) {
-			$nearestDay = strtotime("today midnight");
-		} else {
-			$nearestDay = strtotime("next $day midnight");	
-		}
-		sort($clocks);
-		
-		
-		$times = array();
-		foreach ($clocks as $clock) {
-			list($hour, $minute) = explode(':', $clock);
-		
-			// Next @:
-			$ts = $nearestDay + ($hour * 60 * 60) + ($minute * 60);
-			if (time() < $ts) {
-				$times[] = $ts;
-			}
-		}
-		
-		if (empty($times)) {
-			$times = $this->getTimeForSchema($schema, false);
-		}
-		
-		return $times;
-	}
 	
 	
 	/**
