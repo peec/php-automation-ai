@@ -71,7 +71,7 @@ class AI {
 		$ret = array();
 		foreach($bots as $botns => $args) {
 			$c = str_replace('.', '\\', $botns);
-			$b = new $c($this->createSubLogger($botns), $this->db, $this->output);
+			$b = new $c($this->createSubLogger($botns), $this->db, $this->output, $args, $this->botAi);
 			$b->setup();
 			$ret[$botns] = array(
 				'object' => $b,
@@ -85,7 +85,8 @@ class AI {
 	
 	
 	public function constructBotAI () {
-		$this->botAi = new BotAI($this->getCompiledBotConfig());
+		$this->botAi = new BotAI();
+		$this->botAi->setBots($this->getCompiledBotConfig());
 		$this->store = new Store();
 	}
 	

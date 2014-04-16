@@ -18,8 +18,14 @@ $do(function (BotAI $botai) {
 })
 ->when(function (Query $q) {
 	return
-	// We must have gotten motion in the lounge.
-	$q->event("motion:Lounge") &&
-	$q->onceEvery("day") &&
-	date('H') >= 4;
+	$q->onceEvery("day") && // Once every day.
+	date('H') >= 4; // Clock must be more than 04:00 
+});
+
+$do(function (BotAI $botai) {
+	$botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
+})
+->when(function (Query $q) {
+	return 
+	$q->onceEvery("hour");
 });

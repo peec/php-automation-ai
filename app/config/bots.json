@@ -8,7 +8,13 @@
 		"Pkj.AutomationAI.Bots.SpeechBot": {
 			"provider": "google",
 			"command": "/usr/bin/mplayer -ao alsa -really-quiet  -softvol -softvol-max 400  -noconsolecontrols \"http://translate.google.com/translate_tts?tl=en&q=%s\""
-		}
+		},
+		"Pkj.AutomationAI.Bots.WeatherBot": {
+            "apikey": "",
+            "units": "si",
+            "latitude": "59.2096200",
+            "longitude": "9.6089700"
+        }
 	},
 	
 	"timezone": "Europe/Oslo",

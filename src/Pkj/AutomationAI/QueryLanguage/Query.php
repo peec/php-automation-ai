@@ -34,6 +34,7 @@ class Query {
 	 */
 	public function onceEvery ($unit) {
 		
+		$dateParam = '';
 		switch($unit) {
 			case "day":
 				$dateParam = 'D';
@@ -53,7 +54,7 @@ class Query {
 		$self = $this;
 		$previous = $this->qbs->get('onceEvery');
 		
-		$this->tasks['onceEvery'] = function () use ($self) {
+		$this->tasks['onceEvery'] = function () use ($self, $dateParam) {
 			$this->qbs->set('onceEvery',date($dateParam));
 		};
 		return date($dateParam) != $previous;

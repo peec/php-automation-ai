@@ -32,7 +32,7 @@ class SpeechBot extends Bot {
 		if (!$process->isSuccessful()) {
 			throw new RuntimeException($process->getErrorOutput());
 		}
-		
+		$this->logger->addDebug("Speech: {$args['message']}");
 		return $process->getOutput();
 	}
 	

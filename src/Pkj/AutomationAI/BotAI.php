@@ -5,10 +5,10 @@ class BotAI {
 	
 	private $bots = array();
 	
-	public function __construct (array $bots) {
+	
+	public function setBots (array $bots) {
 		$this->bots = $bots;
 	}
-	
 	
 	public function run ($bot, array $args) {
 		$b = $this->bots[$bot];
