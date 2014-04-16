@@ -32,6 +32,10 @@ abstract class Bot {
 		
 	}
 	
+	public function getLogger () {
+		return $this->logger;
+	}
+	
 	public function cfg($key, $default = null)
 	{
 		return isset($this->config[$key]) ? $this->config[$key] : $default;

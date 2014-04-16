@@ -105,7 +105,8 @@ class AI {
 		$do = function ($callback) use ($store, $botAi, $self) {
 			$qbs = new QueryBuilderStore();
 			$qb = new QueryBuilder($callback, $qbs);
-			$qb->configure($botAi, new Query($store, $qbs));
+			$loggerName = 'ai.query';
+			$qb->configure($botAi, new Query($store, $qbs, $self->createSubLogger($loggerName)));
 			$self->todos[] = $qb;
 			return $qb;
 		};
@@ -133,6 +134,9 @@ class AI {
 		$eventCallback = function ($ev, $args) use ($self) {
 			$self->store->eventChanges[$ev] = $args;
 		};
+		
+		
+		$this->logger->addInfo("Bot started.");
 		
 		while (!$this->exit) {
 			$this->store->reset();
