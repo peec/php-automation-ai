@@ -21,5 +21,5 @@ $do(function (BotAI $botai) {
 	// We must have gotten motion in the lounge.
 	$q->event("motion:Lounge") &&
 	$q->onceEvery("day") &&
-	date('H') > 4;
+	date('H') >= 4;
 });
