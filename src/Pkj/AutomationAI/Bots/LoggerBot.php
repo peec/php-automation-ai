@@ -1,6 +1,12 @@
 <?php
 namespace Pkj\AutomationAI\Bots;
 
+
+/**
+ * Created for test purposes. Very minimal bot.
+ * @author peec
+ *
+ */
 class LoggerBot extends Bot{
 	
 	public function run (array $args) {

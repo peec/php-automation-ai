@@ -1,6 +1,8 @@
 <?php
 namespace Pkj\AutomationAI;
 
+use Pkj\AutomationAI\QueryLanguage\QueryBuilderStore;
+
 use Pkj\AutomationAI\QueryLanguage\Query;
 use Pkj\AutomationAI\QueryLanguage\QueryBuilder;
 
@@ -100,8 +102,9 @@ class AI {
 		$store = $this->store;
 		$self = $this;
 		$do = function ($callback) use ($store, $botAi, $self) {
-			$qb = new QueryBuilder($callback);
-			$qb->configure($botAi, new Query($store));
+			$qbs = new QueryBuilderStore();
+			$qb = new QueryBuilder($callback, $qbs);
+			$qb->configure($botAi, new Query($store, $qbs));
 			$self->todos[] = $qb;
 			return $qb;
 		};

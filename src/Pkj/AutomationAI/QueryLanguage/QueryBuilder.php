@@ -8,19 +8,22 @@ class QueryBuilder {
 
 	private $do;
 	private $when;
+	private $store;
 	
 	
 	private $botAi;
 	private $query;
 	
-	public function __construct (callable $doCallback) {
+	public function __construct (callable $doCallback, QueryBuilderStore $store) {
 		$this->do = $doCallback;
+		$this->store = $store;
 		
 	}
 	
 	public function configure (BotAI $botAi, Query $query) {
 		$this->botAi = $botAi;
 		$this->query = $query;
+		$this->query->queryStore = $this->store;
 	}
 	
 	
@@ -30,21 +33,28 @@ class QueryBuilder {
 	}
 	
 	
+	public function getStore () {
+		return $this->store;
+	}
+	
+	
 	public function run () {
 		$run = true;
 		
 		if ($this->when) {
 			$run = false;
 			
-			$when = $this->when->bindTo($this->query);		
+			$when = $this->when->bindTo($this);		
 			$run = $when($this->query);
 			
 			
 		}
 		
 		if ($run) {
-			$do = $this->do->bindTo($this->botAi);
-			$do(); // Now run it.
+			$do = $this->do->bindTo($this);
+			$do($this->botAi); // Now run it.
+			
+			$this->query->afterRun();
 		}
 		
 	}

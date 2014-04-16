@@ -4,7 +4,11 @@
 	],
 	
 	"bots": {
-		"Pkj.AutomationAI.Bots.LoggerBot": {}
+		"Pkj.AutomationAI.Bots.LoggerBot": {},
+		"Pkj.AutomationAI.Bots.SpeechBot": {
+			"provider": "google",
+			"command": "/usr/bin/mplayer -ao alsa -really-quiet  -softvol -softvol-max 400  -noconsolecontrols \"http://translate.google.com/translate_tts?tl=en&q=%s\""
+		}
 	},
 	
 	"timezone": "Europe/Oslo",
