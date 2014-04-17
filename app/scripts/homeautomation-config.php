@@ -26,8 +26,8 @@ $do(function (BotAI $botai) {
 	return
 	//$q->matchScheme("Wed@21:22|21:23|21:24") && 
 	//$q->event("motion:Lounge") && // Motion in the Lounge.
-	$q->onceEvery("day") && // Once every day.
-	date('H') >= 4; // Clock must be more than 04:00 
+	$q->onceEvery("day"); // && // Once every day.
+	// date('H') >= 4; // Clock must be more than 04:00 
 });
 
 /*

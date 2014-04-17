@@ -25,6 +25,15 @@
         }
 	},
 	
+	"services": [
+		{
+            "Pkj.AutomationAI.Services.PingService": {
+                "host": "10.0.0.99",
+                "device_name": "my-phone"
+            }
+        }
+	],
+	
 	"timezone": "Europe/Oslo",
 	
 	"database": {

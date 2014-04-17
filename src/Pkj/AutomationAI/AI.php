@@ -39,6 +39,7 @@ class AI {
 		$this->constructDB();
 		$this->constructBotAI();
 		$this->configureScripts();
+		$this->initServices();
 	}
 	
 	private function constructLogger () {
@@ -81,6 +82,21 @@ class AI {
 			
 		}
 		return $ret;
+	}
+	
+	public function initServices () {
+		$services = isset($this->config['conf']['services']) ? $this->config['conf']['services'] : array();
+		
+		foreach($services as $service) {
+			$class = array_keys($service)[0];
+			$args = $service[$class];
+			$c = str_replace('.', '\\', $class);
+			$s = new $c($this->createSubLogger($class), $this->db, $this->output, $args, $this->botAi);
+			$s->initService();
+			$s->setup();
+			$s->start();
+		}
+		
 	}
 	
 	

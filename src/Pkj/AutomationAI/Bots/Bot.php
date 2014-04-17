@@ -36,13 +36,11 @@ abstract class Bot {
 		return $this->logger;
 	}
 	
-	public function cfg($key, $default = null)
-	{
+	public function cfg($key, $default = null) {
 		return isset($this->config[$key]) ? $this->config[$key] : $default;
 	}
 	
-	public function cfgRequire($key)
-	{
+	public function cfgRequire($key) {
 		if (!isset($this->config[$key])) {
 			$this->logger->addCritical("Configuration $key is not set. Must be set.");
 			throw new InvalidArgumentException("Configuration $key is required");
