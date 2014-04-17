@@ -15,26 +15,20 @@ $do(function (BotAI $botai) {
 		"commands" => array(
 			"HALL-LIGHTS=on"
 		)
-	));
-	
-	$botai->run("Pkj.AutomationAI.Bots.LoggerBot", array(
-		"message" => "Hello there dude... this is a message.."		
-	));
-	
+	));	
 })
 ->when(function (Query $q) {
 	return
-	//$q->matchScheme("Wed@21:22|21:23|21:24") && 
-	//$q->event("motion:Lounge") && // Motion in the Lounge.
+	$q->event("motion:Lounge") && // Motion in the Lounge.
 	$q->onceEvery("day"); // && // Once every day.
-	// date('H') >= 4; // Clock must be more than 04:00 
+	date('H') >= 4; // Clock must be more than 04:00 
 });
 
-/*
+// Weather cast every hour.
 $do(function (BotAI $botai) {
 	$botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
 })
 ->when(function (Query $q) {
 	return 
 	$q->onceEvery("hour");
-});*/
+});
