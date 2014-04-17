@@ -101,7 +101,7 @@ class AI {
 	
 	
 	public function constructBotAI () {
-		$this->botAi = new BotAI();
+		$this->botAi = new BotAI($this->config['app_path']);
 		$this->botAi->setBots($this->getCompiledBotConfig());
 		$this->store = new Store();
 	}

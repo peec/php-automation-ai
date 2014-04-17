@@ -4,8 +4,11 @@ namespace Pkj\AutomationAI;
 class BotAI {
 	
 	private $bots = array();
+	public $appPath;
 	
-	
+	public function __construct ($appPath) {
+		$this->appPath = $appPath;	
+	}
 	public function setBots (array $bots) {
 		$this->bots = $bots;
 	}

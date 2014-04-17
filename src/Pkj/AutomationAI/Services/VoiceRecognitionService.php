@@ -24,30 +24,41 @@ class VoiceRecognitionService extends ServiceThread {
 		if ($this->stopListen)return;
 		
 		$this->stopListen = true;
-		if (in_array($msg, $this->config['keywords'])) {
+		if (in_array(strtolower($msg), $this->config['keywords'])) {
 			$this->bots->run("Pkj.AutomationAI.Bots.SpeechBot", array(
-				"message" => "What can I do for you, sir?"
+				"message" => "What can I do for you?"
 			));
 			$this->commandActive = true;
 		} else if ($this->commandActive) {
 			
+			$matched = false;
 			foreach($this->matcherRules as $rule) {
 				if (preg_match($rule->rule(), $msg, $matches)) {
 					$rule->match();
 					// on next main loop , match this..
+					$matched = true;
 				}
 			}
-			
-			$this->commandActive = false;
+			if ($matched) {
+				$this->commandActive = false;
+				
+			} else {
+				$this->bots->run("Pkj.AutomationAI.Bots.SpeechBot", array(
+						"message" => "I could not quite catch what you said, please try again."
+				));
+			}
 		}
-		
+		sleep(1);
 		$this->stopListen = false;
 	}
 	
 	
 	public function loop () {
 		$self = $this;
-		$cmd = "cd " . $this->config['pocketsphinx_binary'] . " && ./pocketsphinx_continuous";
+		
+		$appPath = $this->bots->appPath;
+		$args = str_replace('${APP_PATH}', $appPath, $this->config['arguments']);
+		$cmd = "cd " . $this->config['pocketsphinx_binary'] . " && ./pocketsphinx_continuous $args";
 		
 		
 		$process = new Process($cmd);

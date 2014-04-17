@@ -1,0 +1,61 @@
+Language model created by QuickLM on Thu Apr 17 10:19:36 EDT 2014
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 9 sentences and 11 words
+
+\data\
+ngram 1=11
+ngram 2=18
+ngram 3=9
+
+\1-grams:
+-0.7782 </s> -0.3010
+-0.7782 <s> -0.2218
+-1.7324 DIM -0.2218
+-1.7324 HALLWAY -0.2218
+-1.7324 IN -0.2218
+-1.7324 LIGHTS -0.2218
+-1.7324 LOUNGE -0.2218
+-1.7324 OFF -0.2218
+-1.7324 ON -0.2218
+-1.7324 PI -0.2218
+-1.7324 TURN -0.2218
+
+\2-grams:
+-1.2553 <s> DIM 0.0000
+-1.2553 <s> HALLWAY 0.0000
+-1.2553 <s> IN 0.0000
+-1.2553 <s> LIGHTS 0.0000
+-1.2553 <s> LOUNGE 0.0000
+-1.2553 <s> OFF 0.0000
+-1.2553 <s> ON 0.0000
+-1.2553 <s> PI 0.0000
+-1.2553 <s> TURN 0.0000
+-0.3010 DIM </s> -0.3010
+-0.3010 HALLWAY </s> -0.3010
+-0.3010 IN </s> -0.3010
+-0.3010 LIGHTS </s> -0.3010
+-0.3010 LOUNGE </s> -0.3010
+-0.3010 OFF </s> -0.3010
+-0.3010 ON </s> -0.3010
+-0.3010 PI </s> -0.3010
+-0.3010 TURN </s> -0.3010
+
+\3-grams:
+-0.3010 <s> DIM </s>
+-0.3010 <s> HALLWAY </s>
+-0.3010 <s> IN </s>
+-0.3010 <s> LIGHTS </s>
+-0.3010 <s> LOUNGE </s>
+-0.3010 <s> OFF </s>
+-0.3010 <s> ON </s>
+-0.3010 <s> PI </s>
+-0.3010 <s> TURN </s>
+
+\end\
