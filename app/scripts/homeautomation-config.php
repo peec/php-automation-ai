@@ -25,6 +25,7 @@ $do(function (BotAI $botai) {
 });
 
 // Weather cast every hour.
+/*
 $do(function (BotAI $botai) {
 	$botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
 })
@@ -32,3 +33,4 @@ $do(function (BotAI $botai) {
 	return 
 	$q->onceEvery("hour");
 });
+*/
