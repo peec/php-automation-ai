@@ -58,7 +58,12 @@ EOT
 		$this->options['log_path'] = $input->getOption('logpath');
 		$this->options['log_level'] = $input->getOption('loglevel');
 		$this->options['configfile'] = $input->getOption('configfile');
-	
+
+        $dist = $this->options['configfile'] . ".dist";
+        if (file_exists($dist)) {
+            throw new InvalidArgumentException("Config file ($dist) exists. Please copy this file and remove '.dist' from the filename.");
+        }
+
 		if (!$this->options['configfile'] || !file_exists($this->options['configfile'])) {
 			throw new InvalidArgumentException("configfile ($cfgdir) does not exist.");
 		}

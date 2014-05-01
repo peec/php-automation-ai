@@ -6,3 +6,10 @@
 /.settings
 /app/logs/*.log
 /testrun.sh
+
+/app/scripts/*.php
+!/app/scripts/homeautomation-config.php
+
+/app/config/*.json
+
+

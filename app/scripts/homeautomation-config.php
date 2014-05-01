@@ -15,7 +15,7 @@ $do(function (BotAI $botai) {
 		"commands" => array(
 			"HALL-LIGHTS=on"
 		)
-	));	
+	));
 })
 ->when(function (Query $q) {
 	return
@@ -25,7 +25,6 @@ $do(function (BotAI $botai) {
 });
 
 // Weather cast every hour.
-/*
 $do(function (BotAI $botai) {
 	$botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
 })
@@ -33,4 +32,23 @@ $do(function (BotAI $botai) {
 	return 
 	$q->onceEvery("hour");
 });
-*/
+
+
+// Weather cast every hour.
+$do(function (BotAI $botai) {
+    $botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
+})
+->when(function (Query $q) {
+    return $q->onceEvery("hour")
+        ;
+});
+
+
+
+
+
+
+
+
+
+

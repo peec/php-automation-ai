@@ -31,13 +31,6 @@
                 "host": "10.0.0.99",
                 "device_name": "my-phone"
             }
-        },
-        {
-        	"Pkj.AutomationAI.Services.VoiceRecognitionService": {
-        		"pocketsphinx_binary": "/home/peec/cmusphinx/pocketsphinx-0.8/src/programs/",
-        		"keywords": "pi",
-        		"arguments": "-lm ${APP_PATH}/speechrecognition/generated/3594.lm -dict ${APP_PATH}/speechrecognition/generated/3594.dic"
-        	}
         }
 	],
 	
