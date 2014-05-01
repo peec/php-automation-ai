@@ -2,6 +2,7 @@
 namespace Pkj\AutomationAI\Bots;
 
 use Forecast\Forecast;
+use Symfony\Component\Process\Exception\InvalidArgumentException;
 
 
 /**
@@ -31,6 +32,9 @@ class WeatherBot extends Bot{
             $this->apiKey = $this->cfgRequire('apikey');
         }
 
+        if (!$this->apiKey) {
+            throw new InvalidArgumentException("Could not find APIKEY. Please configure bots.json or set FORECAST_API_KEY ENV VARIABLE to your key from http://forecast.io.");
+        }
         $this->output->writeln("Using Forecast.IO API key {$this->apiKey}.");
 
         $forecast = new Forecast($this->apiKey);

@@ -36,7 +36,7 @@ class AI {
 		$this->config = $config;
 		$this->output = $output;
 		$this->constructLogger();
-		$this->constructDB();
+	    $this->db = $this->constructDB();
 		$this->constructBotAI();
 		$this->configureScripts();
 		$this->initServices();
@@ -52,7 +52,14 @@ class AI {
 	
 	private function constructDB () {
 		$cfg = $this->config['conf']['database'];
-		$this->db = new DB($cfg['dsn'], $cfg['username'], $cfg['password'], $cfg['driver_options'], $this->createSubLogger('ai.db'));
+
+        foreach($cfg as $k => $v) {
+            if ($val = getenv("DB_$k")) {
+                $cfg[$k] = $val;
+            }
+        }
+
+		return new DB($cfg['dsn'], $cfg['username'], $cfg['password'], $cfg['driver_options'], $this->createSubLogger('ai.db'));
 	}
 	
 	
@@ -91,7 +98,7 @@ class AI {
 			$class = array_keys($service)[0];
 			$args = $service[$class];
 			$c = str_replace('.', '\\', $class);
-			$s = new $c($this->createSubLogger($class), $this->db, $this->output, $args, $this->botAi);
+			$s = new $c($this->createSubLogger($class), $this->constructDB(), $this->output, $args, $this->botAi);
 			$s->initService();
 			$s->setup();
 			$s->start();
@@ -161,8 +168,6 @@ class AI {
 			// checkQueue callback has now gotten the setting / event change events... now..
 			
 			$this->checkTodos();
-			
-			
 			sleep(2);
 		}
 		

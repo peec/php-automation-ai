@@ -19,7 +19,8 @@ use Symfony\Component\Process\Exception\RuntimeException;
  *
  */
 class Application extends Command{
-	
+
+    const VERSION = "1.0b";
 	
 	
 	private $options;
@@ -53,19 +54,23 @@ EOT
 	{
 		$shutdown = false;
 	
-	
+
+        $output->writeln("<info>Welcome to PHP Automation Version ".self::VERSION."</info>");
 	
 		$this->options['log_path'] = $input->getOption('logpath');
 		$this->options['log_level'] = $input->getOption('loglevel');
 		$this->options['configfile'] = $input->getOption('configfile');
 
         $dist = $this->options['configfile'] . ".dist";
-        if (file_exists($dist)) {
-            throw new InvalidArgumentException("Config file ($dist) exists. Please copy this file and remove '.dist' from the filename.");
-        }
+
+
 
 		if (!$this->options['configfile'] || !file_exists($this->options['configfile'])) {
-			throw new InvalidArgumentException("configfile ($cfgdir) does not exist.");
+            if (file_exists($dist)) {
+                throw new InvalidArgumentException("Config file ($dist) exists. Please copy this file and remove '.dist' from the filename.");
+            } else {
+                throw new InvalidArgumentException("configfile ($cfgdir) does not exist.");
+            }
 		}
 	
 		$this->options['conf'] = json_decode(file_get_contents($this->options['configfile']), true);
