@@ -23,15 +23,15 @@ class Query {
 	
 	
 	public function event ($eventName) {
-		return isset($this->store->eventChanges[$eventName]) ?: null;
+		return isset($this->store->eventChanges[$eventName]) ? $this->store->eventChanges[$eventName] : null;
 	}
 	
 	public function setting ($settingName) {
-		return isset($this->store->settings[$settingName]) ?: null;	
+		return isset($this->store->settings[$settingName]) ? $this->store->settings[$settingName] : null;
 	}
 	
 	public function settingChange ($settingName) {
-		return isset($this->store->settingChanges[$settingName]) ?: null;
+		return isset($this->store->settingChanges[$settingName]) ? $this->store->settingChanges[$settingName] : null;
 	}
 	
 	

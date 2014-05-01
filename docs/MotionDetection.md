@@ -41,3 +41,14 @@ $query->execute(array(
 ':args' => json_encode(array("time" => time()))
 ));
 ```
+
+
+## Configure bots.json
+
+Add this to the bots.json "services" array:
+
+```json
+    "Pkj.AutomationAI.Services.ShairportService": {
+        "now_playing_file": "/home/pi/raspai/raspai_shairport/data/now_playing.txt"
+    }
+```

@@ -37,6 +37,19 @@ $do(function (BotAI $botai) {
     });
 
 
-
-
+// Stop listening to bad music.
+$do(function (BotAI $botai) {
+    $botai->run("Pkj.AutomationAI.Bots.SpeechBot", array(
+        "message" => "Please stop listening to bad music, Beaver feaver out."
+    ));
+})
+    ->when(function (Query $q) {
+        $currentMusic = $q->event("songchange");
+        if ($currentMusic) {
+            if ($currentMusic['data']['artist']=='Justin Bieber') {
+                return true;
+            }
+        }
+        return false;
+    });
 

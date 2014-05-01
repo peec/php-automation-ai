@@ -93,10 +93,11 @@ class AI {
 	
 	public function initServices () {
 		$services = isset($this->config['conf']['services']) ? $this->config['conf']['services'] : array();
-		
-		foreach($services as $service) {
-			$class = array_keys($service)[0];
-			$args = $service[$class];
+
+		foreach($services as $key => $service) {
+            $class = $key;
+			$this->output->writeln("<info>Starting service $class.</info>");
+            $args = $service;
 			$c = str_replace('.', '\\', $class);
 			$s = new $c($this->createSubLogger($class), $this->constructDB(), $this->output, $args, $this->botAi);
 			$s->initService();

@@ -34,8 +34,17 @@ class DB {
     
     
     public function connect () {
-        $this->pdo = new \PDO($this->dsn, $this->username, $this->password, $this->driver_options);
+        $this->pdo = new \PDO($this->dsn, $this->username, $this->password, array_merge(
+            $this->driver_options, array( \PDO::ATTR_PERSISTENT => true)));
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $query = $this->pdo->prepare("set session wait_timeout=10000,interactive_timeout=10000,net_read_timeout=10000");
+        $query->execute();
+
+
+
+
+
 
         $this->checkQueueStatement = $this->pdo->prepare("SELECT * FROM eventqueue ORDER BY issued_ts ASC");
         $this->deleteStatement = $this->pdo->prepare("DELETE FROM eventqueue WHERE id=:id");
@@ -50,7 +59,7 @@ class DB {
         $this->settingInsertStatement = $this->pdo->prepare("INSERT INTO settings VALUES (:k, :v)");
 
         
-        $this->eventExistsStatement = $this->pdo->prepare("SELECT * FROM eventqueue WHERE `key`=:k");
+        $this->eventExistsStatement = $this->pdo->prepare("SELECT * FROM eventqueue WHERE `event`=:k");
         $this->eventInsertStatement = $this->pdo->prepare("INSERT INTO eventqueue (`event`, `args`) VALUES (:k, :v)");
         
         
@@ -91,6 +100,7 @@ class DB {
     	} else {
     		$do = $this->eventInsertStatement;
     	}
+        $val = json_encode($args);
     	
     	$do->bindParam(':k', $key, \PDO::PARAM_STR);
     	$do->bindParam(':v', $val, \PDO::PARAM_STR);
@@ -111,7 +121,7 @@ class DB {
             if (empty($this->settings)) {
                 $diff = array();
             } else {
-                $diff = array_diff($newsettings, $this->settings);
+                $diff = $this->arrayRecursiveDiff($newsettings, $this->settings);
             }
             if (!empty($diff)) {
                 $this->logger->addDebug("Settings from DB changed, diff is", array('diff' => $diff));
@@ -140,5 +150,24 @@ class DB {
         }
     }
 
+    public function arrayRecursiveDiff($aArray1, $aArray2) {
+        $aReturn = array();
+
+        foreach ($aArray1 as $mKey => $mValue) {
+            if (array_key_exists($mKey, $aArray2)) {
+                if (is_array($mValue)) {
+                    $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);
+                    if (count($aRecursiveDiff)) { $aReturn[$mKey] = $aRecursiveDiff; }
+                } else {
+                    if ($mValue != $aArray2[$mKey]) {
+                        $aReturn[$mKey] = $mValue;
+                    }
+                }
+            } else {
+                $aReturn[$mKey] = $mValue;
+            }
+        }
+        return $aReturn;
+    }
 
 } 
