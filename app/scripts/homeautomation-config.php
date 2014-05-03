@@ -32,7 +32,7 @@ $do(function (BotAI $botai) {
             "HALL-LIGHTS=on"
         )
     ));
-})->when($AT_HOME);
+})->when($AT_HOME)->runOnceBasedOn('when');
 
 
 
@@ -42,17 +42,18 @@ $do(function (BotAI $botai) {
             "HALL-LIGHTS=off"
         )
     ));
-})->when($NOT_AT_HOME);
+})->when($NOT_AT_HOME)->runOnceBasedOn('when');
 
 
 
 
 
 // Weather cast every hour.
+/*
 $do(function (BotAI $botai) {
     $botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
 })->when($EVERY_HOUR_WHEN_AWAKE);
-
+*/
 
 
 // Stop listening to bad music.
@@ -61,4 +62,17 @@ $do(function (BotAI $botai) {
         "message" => "Please stop listening to bad music, Beaver feaver out."
     ));
 })->when($LISTEN_TO_STUPID_MUSIC);
+
+
+
+
+$do(function (BotAI $botai) {
+    $botai->output->writeln("This runs only once based on the when conditions (saves resources)..");
+    $botai->run("Pkj.AutomationAI.Bots.SpeechBot", array(
+        "message" => "Your phone is on."
+    ));
+})->when(function (Query $q) {
+    return $q->setting("ping:my-phone:status");
+})->runOnceBasedOn('when');
+
 

@@ -18,6 +18,7 @@ class AI {
 	private $logger;
 	private $loggerStream;
 	private $exit;
+    private $bots;
 	
 	
 	private $todos = array();
@@ -37,8 +38,17 @@ class AI {
 		$this->output = $output;
 		$this->constructLogger();
 	    $this->db = $this->constructDB();
-		$this->constructBotAI();
+        $this->store = new Store();
+        $this->botAi = new BotAI($this->config['app_path'], $output);
+        // Circular dependency:
+        $this->bots = $this->getCompiledBotConfig($this->botAi);
+        $this->botAi->setBots($this->bots);
+        // End circular dep.
+
+        // Must go after $this->bots is set:
 		$this->configureScripts();
+
+        // The threads get initialized here.
 		$this->initServices();
 	}
 	
@@ -74,12 +84,12 @@ class AI {
 	}
 	
 	
-	public function getCompiledBotConfig () {
+	public function getCompiledBotConfig (BotAI $botAi) {
 		$bots = $this->config['conf']['bots'];
 		$ret = array();
 		foreach($bots as $botns => $args) {
 			$c = str_replace('.', '\\', $botns);
-			$b = new $c($this->createSubLogger($botns), $this->db, $this->output, $args, $this->botAi);
+			$b = new $c($this->createSubLogger($botns), $this->db, $this->output, $args, $botAi);
 			$b->setup();
 			$ret[$botns] = array(
 				'object' => $b,
@@ -109,9 +119,9 @@ class AI {
 	
 	
 	public function constructBotAI () {
-		$this->botAi = new BotAI($this->config['app_path']);
-		$this->botAi->setBots($this->getCompiledBotConfig());
-		$this->store = new Store();
+		$botAi = new BotAI($this->config['app_path'], $this->output);
+		$botAi->setBots($this->bots);
+        return $botAi;
 	}
 	
 	public function configureScripts () {
@@ -123,10 +133,11 @@ class AI {
 	}
 	
 	public function runConfigScript ($path) {
-		$botAi = $this->botAi;
+        $that = $this;
 		$store = $this->store;
 		$self = $this;
-		$do = function ($callback) use ($store, $botAi, $self) {
+		$do = function ($callback) use ($store, $that, $self) {
+            $botAi = $that->constructBotAI(); // $do got its own instance of botai..
 			$qbs = new QueryBuilderStore();
 			$qb = new QueryBuilder($callback, $qbs);
 			$loggerName = 'ai.query';
