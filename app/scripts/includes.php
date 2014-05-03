@@ -5,15 +5,13 @@ use Pkj\AutomationAI\QueryLanguage\Query;
 $WAKE_UP_TIME = function (Query $q) {
     return
     $q->event("motion:Lounge") && // Motion in the Lounge.
-    $q->onceEvery("day") && // && // Once every day.
     date('H') >= 4; // Clock must be more than 04:00
 };
 
 
 
-$EVERY_HOUR_WHEN_AWAKE = function (Query $q) {
+$I_AM_AWAKE = function (Query $q) {
     return
-        $q->onceEvery("hour") &&
         date('H') > 6 &&
         date('H') < 20;
 };

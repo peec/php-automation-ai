@@ -1,6 +1,9 @@
 <?php
 use Pkj\AutomationAI\BotAI;
 use Pkj\AutomationAI\QueryLanguage\Query;
+use Pkj\AutomationAI\QueryLanguage\QueryBuilder;
+
+
 
 
 // Define your logic here ( this is PHP, but our API makes it easy to configure..
@@ -21,8 +24,10 @@ $do(function (BotAI $botai) {
 			"message" => "Good morning Peter, have a nice day!"
 	));
 })
-->when($WAKE_UP_TIME);
-
+->when($WAKE_UP_TIME)
+->runOnceBasedOn('time', function (QueryBuilder $b) {
+    return $b->timeBased("day");
+});
 
 
 // When there are motion in lounge, turn on lights in hallway-
@@ -49,11 +54,15 @@ $do(function (BotAI $botai) {
 
 
 // Weather cast every hour.
-/*
+
 $do(function (BotAI $botai) {
     $botai->run("Pkj.AutomationAI.Bots.WeatherBot", array());
-})->when($EVERY_HOUR_WHEN_AWAKE);
-*/
+})
+->when($I_AM_AWAKE)
+->runOnceBasedOn('time', function (QueryBuilder $b) {
+    return $b->timeBased("hour");
+});
+
 
 
 // Stop listening to bad music.
@@ -73,6 +82,8 @@ $do(function (BotAI $botai) {
     ));
 })->when(function (Query $q) {
     return $q->setting("ping:my-phone:status");
-})->runOnceBasedOn('when');
+})->runOnceBasedOn('time', function (QueryBuilder $b) {
+        return $b->timeBased("minute");
+});
 
 

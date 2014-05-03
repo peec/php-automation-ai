@@ -61,44 +61,5 @@ class Query {
 	}
 	
 	
-	
-	/**
-	 * 
-	 * @param string $unit day,hour,minute or week
-	 * @throws \Exception
-	 */
-	public function onceEvery ($unit) {
-		
-		$dateParam = '';
-		switch($unit) {
-			case "day":
-				$dateParam = 'D';
-				break;
-			case "hour":
-				$dateParam = 'H';
-				break;
-			case "minute":
-				$dateParam = 'i';
-				break;
-			case "week":
-				$dateParam = 'W';
-				break;
-			default:
-				throw new \Exception("Valid time units for Query::onceEvery is day,hour,minute");
-		}
-		$self = $this;
-		$previous = $this->qbs->get('onceEvery');
-		
-		$this->tasks['onceEvery'] = function () use ($self, $dateParam) {
-			$this->qbs->set('onceEvery',date($dateParam));
-		};
-		return date($dateParam) != $previous;
-	}
-	
-	
-	public function afterRun () {
-		foreach($this->tasks as $t) {
-			$t();
-		}
-	}
+
 }
