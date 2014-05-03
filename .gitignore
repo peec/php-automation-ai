@@ -9,7 +9,7 @@
 
 /app/scripts/*.php
 !/app/scripts/homeautomation-config.php
-
+!/app/scripts/includes.php
 /app/config/*.json
 
 
