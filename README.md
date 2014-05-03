@@ -3,6 +3,8 @@
 This tool makes it possible to do automated tasking, supports Events and settings. Useful for e.g. Home automation.
 Automation AI is a more advanced type of CRON, the Automation AI is built to handle many useful conditions. 
 
+![PHP Automation AI Diagram](/docs/diagram/diagram.phpautomationai.png?raw=true "PHP Automation AI Diagram")
+
 
 ## Features
 

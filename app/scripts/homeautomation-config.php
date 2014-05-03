@@ -39,7 +39,7 @@ $do(function (BotAI $botai) {
 $do(function (BotAI $botai) {
     $botai->run("Pkj.AutomationAI.Bots.ZwayRazberryBot", array(
         "commands" => array(
-            "HALL-LIGHTS=on"
+            "HALL-LIGHTS=off"
         )
     ));
 })->when($NOT_AT_HOME);
