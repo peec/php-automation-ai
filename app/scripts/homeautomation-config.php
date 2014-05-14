@@ -75,6 +75,9 @@ $do(function (BotAI $botai) {
 
 
 
+/*
+Very annoying but is here for sample:
+Says your phone is on only once per success ping, if fail than success again it says it again:
 $do(function (BotAI $botai) {
     $botai->output->writeln("This runs only once based on the when conditions (saves resources)..");
     $botai->run("Pkj.AutomationAI.Bots.SpeechBot", array(
@@ -85,5 +88,5 @@ $do(function (BotAI $botai) {
 })->runOnceBasedOn('time', function (QueryBuilder $b) {
         return $b->timeBased("minute");
 });
-
+*/
 

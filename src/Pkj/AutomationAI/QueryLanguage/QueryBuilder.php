@@ -117,13 +117,15 @@ class QueryBuilder
             $doCommand = true;
             foreach ($this->runConditions as $do) {
                 $condResult = $do();
+                if (is_array($condResult)) {
+                    $res = $condResult['result'];
+                    $after = $condResult['after'];
+                    $afterRun[] = $after;
+                    $condResult = $res;
+                }
                 if (!$condResult) {
                     $doCommand = false;
                     break;
-                } else {
-                    if (is_callable($condResult)) {
-                        $afterRun[] = $condResult;
-                    }
                 }
             }
 
@@ -174,4 +176,32 @@ class QueryBuilder
     }
 
 
+    /**
+     * Can be given in format such as:
+     * @param string $times Mon@12:00|23:00,Tue@12:00,Wed@15:00|16:00|17:00
+     */
+    public function matchScheme($times) {
+        $self = $this;
+
+        $createScheme = function () use ($self, $times) {
+            return TimeUtils::getNextTime($times);
+        };
+
+        // Run when DO is done.
+        $task = function () use ($self, $createScheme) {
+            $time = $createScheme();
+            $self->qbs->set('schemaset', $time);
+            $self->logger->addDebug("Scheduled new time for Query > $time . In " . TimeUtils::timespanToReadable($time - time()) . '.');
+        };
+
+        $task();
+
+        return
+            array(
+                'result' => time() > $this->qbs->get("schemaset"),
+                'after' => function () use ($task) {
+                    $task();
+                }
+            );
+    }
 }
